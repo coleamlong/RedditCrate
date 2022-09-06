@@ -1,20 +1,31 @@
+import imp
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy import util
 
 PLAYLIST_NAME = 'RedditCrate'
 PLAYLIST_DESC = 'This is RedditCrate!'
-USERNAME = 'nightcorepm'
+USERNAME = 'RedditCrateBackend'
+SCOPE = 'playlist-modify-private'
+
+CLIENT_ID = "91d037f7894441b2aab67c0acec6689d"
+CLIENT_SECRET = "36f5c2a0073943ab9f12953844bb44cf"
+REDIRECT_URI = "https://localhost:8888/callback"
+
 
 class Client():
     def __init__(self) -> None:
-        self.spotify = spotipy.Spotify(
-            client_credentials_manager=SpotifyOAuth(
-                client_id="91d037f7894441b2aab67c0acec6689d",
-                client_secret="36f5c2a0073943ab9f12953844bb44cf",
-                scope="playlist-modify-private",
-                redirect_uri="https://localhost:8888/callback",
-            )
-        )
+        token = util.prompt_for_user_token(
+            USERNAME, 
+            SCOPE, 
+            CLIENT_ID, 
+            CLIENT_SECRET, 
+            REDIRECT_URI)
+
+        if token:
+            self.spotify = spotipy.Spotify(
+                auth=token)
+        else:
+            print("Couldn't get user token.")
 
     def try_get_track_uri(self, track):
         search_result = self.spotify.search(
@@ -32,7 +43,7 @@ class Client():
 
     def create_playlist(self, public=False) -> str:
         return self.spotify.user_playlist_create(
-            user=USERNAME,
+            user=self.spotify.me()['id'],
             name=PLAYLIST_NAME,
             public=public,
             description=PLAYLIST_DESC            
@@ -41,7 +52,7 @@ class Client():
 
     def add_tracks_to_playlist(self, playlist_id, tracks):
         return self.spotify.user_playlist_add_tracks(
-            user=USERNAME,
+            user=self.spotify.me()['id'],
             playlist_id=playlist_id,
             tracks=tracks
         )
