@@ -1,25 +1,19 @@
-import imp
+import os
 import spotipy
 from spotipy import util
 
 PLAYLIST_NAME = 'RedditCrate'
 PLAYLIST_DESC = 'This is RedditCrate!'
-USERNAME = 'RedditCrateBackend'
-SCOPE = 'playlist-modify-private'
-
-CLIENT_ID = "91d037f7894441b2aab67c0acec6689d"
-CLIENT_SECRET = "36f5c2a0073943ab9f12953844bb44cf"
-REDIRECT_URI = "https://localhost:8888/callback"
-
 
 class Client():
     def __init__(self) -> None:
         token = util.prompt_for_user_token(
-            USERNAME, 
-            SCOPE, 
-            CLIENT_ID, 
-            CLIENT_SECRET, 
-            REDIRECT_URI)
+            username=os.getenv('spotifyUsername'), 
+            scope='playlist-modify-private', 
+            client_id=os.getenv('spotifyClientId'), 
+            client_secret=os.getenv('spotifyClientSecret'), 
+            redirect_uri=os.getenv('spotifyRedirectUri')
+        )
 
         if token:
             self.spotify = spotipy.Spotify(
