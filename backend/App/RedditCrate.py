@@ -1,6 +1,8 @@
 from Clients import SpotifyClient, RedditClient
+from dotenv import load_dotenv
 
 def main():
+    load_dotenv()
     spotify = SpotifyClient.Client()
     reddit = RedditClient.Client()
 

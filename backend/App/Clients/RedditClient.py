@@ -1,3 +1,4 @@
+import os
 import praw
 import re
 
@@ -5,12 +6,12 @@ TITLE_DELIMITERS = " -- ", " - ", " ["
 
 class Client():
     def __init__(self) -> None:
-        self.reddit = praw.Reddit(
-            client_id="fzLYV7zZWuvpfADxIGiUmA",
-            client_secret="tpKuhof3MKuXXnKfpR7tVuOIXM1UXQ",
-            password="HighJockey664!",
-            user_agent="LAPTOP",
-            username="MeatSuccessful",
+        self.reddit = praw.Redd(
+            client_id=os.getenv('redditClientId'),
+            client_secret=os.getenv('redditClientSecret'),
+            password= os.getenv('redditPassword'),
+            user_agent=os.getenv('redditUserAgent'),
+            username=os.getenv('redditPassword'),
         )
 
 
