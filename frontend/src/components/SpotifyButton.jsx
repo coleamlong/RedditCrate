@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 
 const CLIENT_ID = "91d037f7894441b2aab67c0acec6689d";
 const SPOTIFY_AUTHORIZE_ENDPOINT = "https://accounts.spotify.com/authorize";
-const REDIRECT_URI_AFTER_LOGIN = "http://localhost:3000/";
+const REDIRECT_URI_AFTER_LOGIN = "https://spotify-playlist.coleamlong.com/";
 const SPACE_DELIM = "%20";
 const SCOPES = ["playlist-modify-public", "playlist-read-private"];
 
